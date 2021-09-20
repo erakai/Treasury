@@ -1,0 +1,5 @@
+CLI to begin with, takes in a password and runs it through AES-256 before putting it in a databse
+
+- AES-256
+- SQL
+- java add something to path
