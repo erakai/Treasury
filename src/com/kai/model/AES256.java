@@ -1,4 +1,4 @@
 package com.kai.model;
 
-public class AESGenerator {
+public class AES256 {
 }
