@@ -23,4 +23,9 @@ public class KeyScheduleTest {
 
         Assertions.assertEquals("2c3a4f1d", hex);
     }
+
+    @Test
+    public void rconTest() {
+
+    }
 }

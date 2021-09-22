@@ -5,6 +5,7 @@ CLI to begin with, takes in a password and runs it through AES-256 before puttin
     - https://proprivacy.com/guides/aes-encryption
     - https://engineering.purdue.edu/kak/compsec/NewLectures/Lecture8.pdf
     - https://en.wikipedia.org/wiki/AES_key_schedule
+    - https://stackoverflow.com/questions/4266756/can-we-make-unsigned-byte-in-java
 - SQL
 - java create command line tool
     - https://picocli.info/#_add_as_source
