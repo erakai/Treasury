@@ -1,7 +1,9 @@
 CLI to begin with, takes in a password and runs it through AES-256 before putting it in a databse
 
-- AES-256
+- AES-256 / AES-128 ?
     - https://www.comparitech.com/blog/information-security/what-is-aes-encryption/
+    - https://proprivacy.com/guides/aes-encryption
+    - https://engineering.purdue.edu/kak/compsec/NewLectures/Lecture8.pdf
 - SQL
 - java create command line tool
     - https://picocli.info/#_add_as_source
