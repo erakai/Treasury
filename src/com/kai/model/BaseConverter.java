@@ -33,33 +33,33 @@ public class BaseConverter {
             }
         }
 
-        return reverseHex.reverse().toString();
+        return reverseHex.reverse().toString().toLowerCase();
     }
 
     public static int hexToDec(String hex) {
-        String[] hexValues = hex.split("");
+        String[] hexValues = hex.toLowerCase().split("");
         int dec = 0;
 
         for (int i = hexValues.length-1; i >= 0; i--) {
             int intValue;
 
             switch (hexValues[i]) {
-                case "A":
+                case "a":
                     intValue = 10;
                     break;
-                case "B":
+                case "b":
                     intValue = 11;
                     break;
-                case "C":
+                case "c":
                     intValue = 12;
                     break;
-                case "D":
+                case "d":
                     intValue = 13;
                     break;
-                case "E":
+                case "e":
                     intValue = 14;
                     break;
-                case "F":
+                case "f":
                     intValue = 15;
                     break;
                 default:

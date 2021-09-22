@@ -4,6 +4,7 @@ CLI to begin with, takes in a password and runs it through AES-256 before puttin
     - https://www.comparitech.com/blog/information-security/what-is-aes-encryption/
     - https://proprivacy.com/guides/aes-encryption
     - https://engineering.purdue.edu/kak/compsec/NewLectures/Lecture8.pdf
+    - https://en.wikipedia.org/wiki/AES_key_schedule
 - SQL
 - java create command line tool
     - https://picocli.info/#_add_as_source
