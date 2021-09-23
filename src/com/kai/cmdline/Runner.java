@@ -4,6 +4,10 @@ import com.kai.model.AES128;
 
 import java.util.Scanner;
 
+/**
+ * @author Kai Tinkess
+ * @version Sep 22, 2021
+ */
 public class Runner {
 
     public static void main(String[] args) {

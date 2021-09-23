@@ -1,5 +1,9 @@
 package com.kai.model;
 
+/**
+ * @author Kai Tinkess
+ * @version Sep 22, 2021
+ */
 public class BaseConverter {
     private BaseConverter() {}
 

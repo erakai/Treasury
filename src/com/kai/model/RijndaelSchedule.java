@@ -1,5 +1,9 @@
 package com.kai.model;
 
+/**
+ * @author Kai Tinkess
+ * @version Sep 22, 2021
+ */
 public class RijndaelSchedule {
     private RijndaelSchedule() {}
 
@@ -46,6 +50,57 @@ public class RijndaelSchedule {
     };
 
     /**
+     * Generates an expanded array of 176 bytes given a 16 byte key. The first 16 bytes are the encryption key, and
+     * after that the first word of each round has scheduleCore() ran on it. Then each word is XOR with the word
+     * in the previous round that had its location.
+     *
+     * @see RijndaelSchedule#scheduleCore(byte[], int)
+     *
+     * @param initKey The initial 16 byte encryption key.
+     * @return A 176-length byte array composed of 4 words for 11 rounds.
+     */
+    public static byte[] genKeySchedule128(int[] initKey) {
+        int byteNumber = 4 * 4 * 11, rconValue = 1;
+        byte[] keyWords = new byte[byteNumber];
+        byte[] tempWord = new byte[4];
+
+        if (initKey.length != 16) return null;
+        for (int k = 0; k < 16; k++) {
+            keyWords[k] = (byte) initKey[k];
+        }
+
+        for (int i = 16; i < byteNumber;) {
+            System.arraycopy(keyWords, i - 4, tempWord, 0, 4);
+            if (i % 16 == 0) {
+                scheduleCore(tempWord, rconValue);
+                rconValue++;
+            }
+
+            for (int j = 0; j < 4; j++) {
+                keyWords[i] = (byte) (keyWords[i - 16] ^ tempWord[j]);
+                i++;
+            }
+        }
+
+        return keyWords;
+    }
+
+    /**
+     * Core method that scrambles the bytes during key expansion. Takes an array of 4 bytes, rotates it, and then
+     * substitutes each byte using sbox. Then the rcon value for the round is added to the first byte.
+     *
+     * @param byteArray An array of 4 bytes to be scrambled.
+     * @param round The round number the method is called in.
+     */
+    public static void scheduleCore(byte[] byteArray, int round) {
+        rotate(byteArray);
+        for (int i = 0; i < byteArray.length; i++) {
+            byteArray[i] = (byte) sbox[byteArray[i] & 0xff];
+        }
+        byteArray[0] ^= (rcon(round)[0] & 0xff);
+    }
+
+    /**
      * Rotates a 32-bit word 8 bits to the left.
      *
      * @param byteArray An array of 4 bytes.
@@ -70,29 +125,15 @@ public class RijndaelSchedule {
     public static byte[] rcon(int rc) {
         byte[] byteArray = {0, 0, 0, 0};
         if (rc == 0) return byteArray;
-        byteArray[0] = (byte) Math.pow(2, rc);
+        byteArray[0] = (byte) Math.pow(2, rc-1);
 
-        if (Math.pow(2, rc - 1) >= 128) {
-            byteArray[0] = (byte) (byteArray[0] ^ (0x11b));
+        if (rc == 10) { //TODO: Correct this so it doesn't have to be hardcoded or make a table
+            byteArray[0] = 0x36;
+        } else if (Math.pow(2, rc - 1) >= 256) {
+            byteArray[0] = (byte) ((2 * (rcon(rc-1)[0] & 0xff)) ^ (0x11b));
         }
 
         return byteArray;
     }
-
-    /**
-     * Core method that scrambles the bytes during key expansion. Takes an array of 4 bytes, rotates it, and then
-     * substitutes each byte using sbox. Then the rcon value for the round is added to the first byte.
-     *
-     * @param byteArray An array of 4 bytes to be scrambled.
-     * @param round The round number the method is called in.
-     */
-    public static void scheduleCore(byte[] byteArray, int round) {
-        rotate(byteArray);
-        for (int i = 0; i < byteArray.length; i++) {
-            byteArray[i] = (byte) sbox[byteArray[i] & 0xff];
-        }
-        byteArray[0] ^= rcon(round)[0];
-    }
-
 
 }
