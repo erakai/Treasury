@@ -42,6 +42,19 @@ public class KeyScheduleTest {
     }
 
     @Test
+    public void stringToBytesTest() {
+        String[] strings = {"test", "abcdefghijklmnopqrstuvwxyz", "123456789abcdefg"};
+        byte[][] expectedBytes = {
+                {116, 101, 115, 116, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112},
+                {49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102, 103}
+        };
+
+        for (int i = 0; i < 3; i++) Assertions.assertArrayEquals(expectedBytes[i], RijndaelSchedule.convertKeyToBytes(strings[i]));
+
+    }
+
+    @Test
     public void rotateTest() {
         byte[] byteArray = new byte[4];
         byteArray[0] = 0x1d;
@@ -56,6 +69,13 @@ public class KeyScheduleTest {
         }
 
         Assertions.assertEquals("2c3a4f1d", hex);
+    }
+
+    @Test
+    public void rconTest() {
+        byte[] rconValues = {0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, (byte) 0x80, 0x1b, 0x36};
+
+        for (int i = 0; i < rconValues.length; i++) Assertions.assertEquals(rconValues[i], RijndaelSchedule.rcon(i)[0]);
     }
 
 }

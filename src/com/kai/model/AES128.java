@@ -31,34 +31,37 @@ public class AES128 {
     }
 
     /**
-     * For each byte in the word, substitute it with the given value in Rijndael's sbox.
+     * For each byte in the state, substitute it with the given value in Rijndael's sbox.
      *
-     * @param word A 16-byte word.
+     * @param state A 16-byte word.
      */
-    public static void subBytes(byte[] word) { //TODO: Write test
-        for (int i = 0; i < 16; i++) word[i] = (byte) RijndaelSchedule.sbox[word[i] & 0xff];
+    public static void subBytes(byte[] state) { //TODO: Write test
+        for (int i = 0; i < state.length; i++) state[i] = (byte) RijndaelSchedule.sbox[state[i] & 0xff];
     }
 
     /**
-     * Shift the second row of in the word by 1 place to the left, the third by 2, and the fourth by 3.
+     * Shift the second row of bytes in the state by 1 place to the left, the third by 2, and the fourth by 3.
      *
-     * @param word A 16-byte word.
+     * @param state A 16-byte word.
      */
-    public static void shiftRows(byte[] word) { //TODO: Write test
+    public static void shiftRows(byte[] state) { //TODO: Write test
         for (int i = 1; i < 4; i++) {
-            byte b = word[i * 4];
-            for (int j = 0; j < 3; j++) {
-                word[(i * 4) + j] = word[(i * 4) + j + 1];
+            byte[] b = new byte[4];
+            System.arraycopy(state, i * 4, b, 0, 4);
+
+            for (int j = 0; j < 4; j++) {
+                int posIncrease = j + i;
+                if (posIncrease >= 4) posIncrease -= 4;
+                state[(i * 4) + j] = b[posIncrease];
             }
-            word[(i * 4) + 3] = b;
         }
     }
 
-    public static void mixColumns(byte[] word) {
+    public static void mixColumns(byte[] state) {
 
     }
 
-    public static void addRoundKey(byte[] word, byte[] roundKey) {
+    public static void addRoundKey(byte[] state, byte[] roundKey) {
 
     }
 

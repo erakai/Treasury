@@ -13,7 +13,8 @@ public class RijndaelSchedule {
      * Hardcoded values for the sbox table to avoid having to calculate it manually.
      * Used to scramble each value in the core scheduling.
      */
-    public static final int[] sbox = { //TODO: Write methods to generate the sbox instead of hardcoding it
+    //TODO: Write methods to generate the sbox instead of hardcoding it
+    public static final int[] sbox = {
             0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
             0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
             0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc, 0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15,
@@ -104,7 +105,6 @@ public class RijndaelSchedule {
      * @return An array of 16 bytes
      */
     public static byte[] convertKeyToBytes(String initKey) {
-        //TODO: Write a test to make sure it's not doing anything crazy
         byte[] bytes = new byte[16];
         byte[] givenBytes = initKey.strip().getBytes(StandardCharsets.UTF_8);
         for (int i = 0; i < bytes.length; i++) {
@@ -157,7 +157,6 @@ public class RijndaelSchedule {
      */
     public static byte[] rcon(int rc) {
         //TODO: Correct rc=10 so it doesn't have to be hardcoded or make a table
-        //TODO: Add rcon tests that matches with table
         byte[] byteArray = {0, 0, 0, 0};
         if (rc == 0) return byteArray;
         byteArray[0] = (byte) Math.pow(2, rc-1);
