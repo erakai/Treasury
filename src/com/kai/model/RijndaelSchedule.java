@@ -1,5 +1,7 @@
 package com.kai.model;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * @author Kai Tinkess
  * @version Sep 22, 2021
@@ -11,7 +13,7 @@ public class RijndaelSchedule {
      * Hardcoded values for the sbox table to avoid having to calculate it manually.
      * Used to scramble each value in the core scheduling.
      */
-    private static final int[] sbox = {
+    public static final int[] sbox = { //TODO: Write methods to generate the sbox instead of hardcoding it
             0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
             0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
             0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc, 0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15,
@@ -30,7 +32,7 @@ public class RijndaelSchedule {
             0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
     };
 
-    private static final int[] inverseSbox = {
+    public static final int[] inverseSbox = {
             0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
             0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb,
             0x54, 0x7b, 0x94, 0x32, 0xa6, 0xc2, 0x23, 0x3d, 0xee, 0x4c, 0x95, 0x0b, 0x42, 0xfa, 0xc3, 0x4e,
@@ -50,6 +52,16 @@ public class RijndaelSchedule {
     };
 
     /**
+     * @see RijndaelSchedule#genKeySchedule128(byte[])
+     *
+     * @param initKey The initial key given in plaintext
+     * @return A 176-length byte array composed of 4 words for 11 rounds.
+     */
+    public static byte[] getKeySchedule128(String initKey) {
+        return genKeySchedule128(convertKeyToBytes(initKey));
+    }
+
+    /**
      * Generates an expanded array of 176 bytes given a 16 byte key. The first 16 bytes are the encryption key, and
      * after that the first word of each round has scheduleCore() ran on it. Then each word is XOR with the word
      * in the previous round that had its location.
@@ -59,7 +71,7 @@ public class RijndaelSchedule {
      * @param initKey The initial 16 byte encryption key.
      * @return A 176-length byte array composed of 4 words for 11 rounds.
      */
-    public static byte[] genKeySchedule128(int[] initKey) {
+    public static byte[] genKeySchedule128(byte[] initKey) {
         int byteNumber = 4 * 4 * 11, rconValue = 1;
         byte[] keyWords = new byte[byteNumber];
         byte[] tempWord = new byte[4];
@@ -83,6 +95,27 @@ public class RijndaelSchedule {
         }
 
         return keyWords;
+    }
+
+    /**
+     * Takes in the initial given key and puts the first 16 digits into a byte array according to UTF-8.
+     *
+     * @param initKey The given key in plaintext
+     * @return An array of 16 bytes
+     */
+    public static byte[] convertKeyToBytes(String initKey) {
+        //TODO: Write a test to make sure it's not doing anything crazy
+        byte[] bytes = new byte[16];
+        byte[] givenBytes = initKey.strip().getBytes(StandardCharsets.UTF_8);
+        for (int i = 0; i < bytes.length; i++) {
+            if (i < givenBytes.length) {
+                bytes[i] = givenBytes[i];
+            } else {
+                bytes[i] = 0x00;
+            }
+        }
+
+        return bytes;
     }
 
     /**
@@ -123,11 +156,13 @@ public class RijndaelSchedule {
      * @return An array of 4 bytes with the rcon as the first value and 0 for the rest
      */
     public static byte[] rcon(int rc) {
+        //TODO: Correct rc=10 so it doesn't have to be hardcoded or make a table
+        //TODO: Add rcon tests that matches with table
         byte[] byteArray = {0, 0, 0, 0};
         if (rc == 0) return byteArray;
         byteArray[0] = (byte) Math.pow(2, rc-1);
 
-        if (rc == 10) { //TODO: Correct this so it doesn't have to be hardcoded or make a table
+        if (rc == 10) {
             byteArray[0] = 0x36;
         } else if (Math.pow(2, rc - 1) >= 256) {
             byteArray[0] = (byte) ((2 * (rcon(rc-1)[0] & 0xff)) ^ (0x11b));

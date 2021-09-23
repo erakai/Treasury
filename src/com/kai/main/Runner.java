@@ -1,4 +1,4 @@
-package com.kai.cmdline;
+package com.kai.main;
 
 import com.kai.model.AES128;
 
@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class Runner {
 
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("Enter input: ");
