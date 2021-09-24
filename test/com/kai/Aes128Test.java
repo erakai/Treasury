@@ -1,7 +1,6 @@
 package com.kai;
 
 import com.kai.model.AES128;
-import com.kai.model.RijndaelSchedule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +9,16 @@ import org.junit.jupiter.api.Test;
  * @version Sep 23, 2021
  */
 public class Aes128Test {
+
+    @Test
+    public void Aes128EncryptionTest() {
+        String plaintext = "testtesttesttest";
+        String key = "testtesttesttest";
+        String expectedEncrypted = "BQLAkm7JRmnXYHSpxhWfWqgWzpb238QZn80sC0hHruw=";
+        String actualEncrypted = AES128.encrypt(plaintext, key);
+
+        Assertions.assertEquals(expectedEncrypted, actualEncrypted);
+    }
 
     @Test
     public void subBytesTest() {
@@ -36,6 +45,25 @@ public class Aes128Test {
         };
 
         AES128.shiftRows(actualBytes);
+        Assertions.assertArrayEquals(expectedBytes, actualBytes);
+    }
+
+    @Test
+    public void mixColumnsTests() {
+        byte[] actualBytes = {
+                (byte) 0xdb, (byte) 0xf2, 0x01, 0x2d,
+                       0x13,        0x0a, 0x01, 0x26,
+                       0x53,        0x22, 0x01, 0x31,
+                       0x45,        0x5c, 0x01, 0x4c
+        };
+        byte[] expectedBytes = {
+                (byte) 0x8e, (byte) 0x9f, 0x01,        0x4d,
+                       0x4d, (byte) 0xdc, 0x01,        0x7e,
+                (byte) 0xa1,        0x58, 0x01, (byte) 0xbd,
+                (byte) 0xbc, (byte) 0x9d, 0x01, (byte) 0xf8
+        };
+
+        AES128.mixColumns(actualBytes);
         Assertions.assertArrayEquals(expectedBytes, actualBytes);
     }
 

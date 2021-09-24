@@ -18,7 +18,7 @@ public class Runner {
             String input = scanner.nextLine();
             System.out.println("Enter key: ");
             String key = scanner.nextLine();
-            System.out.println("Encrypted:\n\t" + AES128.encrypt(input, key) + "\n");
+            System.out.println("Encrypted:\n" + AES128.encrypt(input, key) + "\n");
         }
     }
 }
