@@ -1,6 +1,6 @@
 package com.kai;
 
-import com.kai.model.BaseConverter;
+import com.kai.model.AesUtil;
 import com.kai.model.RijndaelSchedule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -42,19 +42,6 @@ public class KeyScheduleTest {
     }
 
     @Test
-    public void stringToBytesTest() {
-        String[] strings = {"test", "abcdefghijklmnopqrstuvwxyz", "123456789abcdefg"};
-        byte[][] expectedBytes = {
-                {116, 101, 115, 116, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112},
-                {49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102, 103}
-        };
-
-        for (int i = 0; i < 3; i++) Assertions.assertArrayEquals(expectedBytes[i], RijndaelSchedule.convertKeyToBytes(strings[i]));
-
-    }
-
-    @Test
     public void rotateTest() {
         byte[] byteArray = new byte[4];
         byteArray[0] = 0x1d;
@@ -65,7 +52,7 @@ public class KeyScheduleTest {
         RijndaelSchedule.rotate(byteArray);
         String hex = "";
         for (byte b: byteArray) {
-            hex += (BaseConverter.decToHex(b));
+            hex += (AesUtil.decToHex(b));
         }
 
         Assertions.assertEquals("2c3a4f1d", hex);

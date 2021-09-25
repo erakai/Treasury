@@ -1,6 +1,7 @@
 package com.kai.main;
 
 import com.kai.model.AES128;
+import com.kai.model.AesUtil;
 
 import java.util.Scanner;
 
@@ -11,7 +12,6 @@ import java.util.Scanner;
 public class Runner {
 
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("Enter input: ");
@@ -21,4 +21,5 @@ public class Runner {
             System.out.println("Encrypted:\n" + AES128.encrypt(input, key) + "\n");
         }
     }
+
 }

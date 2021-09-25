@@ -1,5 +1,10 @@
 CLI to begin with, takes in a password and runs it through AES-256 before putting it in a databse
 
+1. make encryption work
+2. make decryption
+3. figure out string -> bytes with sha
+
+
 - AES-256 / AES-128 ?
     - https://www.comparitech.com/blog/information-security/what-is-aes-encryption/
     - https://proprivacy.com/guides/aes-encryption

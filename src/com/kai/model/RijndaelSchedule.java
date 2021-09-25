@@ -57,6 +57,8 @@ public class RijndaelSchedule {
 
     /**
      * Takes in the initial given key and puts the first 16 digits into a byte array according to UTF-8.
+     * //TODO: Actually make it do the thing https://security.stackexchange.com/questions/38828/how-can-i-securely-convert-a-string-password-to-a-key-used-in-aes
+     *
      *
      * @param initKey The given key in plaintext
      * @return An array of 16 bytes
