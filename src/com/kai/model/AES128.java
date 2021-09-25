@@ -126,17 +126,17 @@ public class AES128 {
         byte[] stateCopy = new byte[colRep.length];
         System.arraycopy(colRep, 0, stateCopy, 0, 16);
         for (int i = 0; i < 4; i++)
-            colRep[i] = (byte) ((GaloisField.mul2Lookup[stateCopy[i] & 0xff]) ^ (GaloisField.mul3Lookup[stateCopy[4 + i]
-                    & 0xff]) ^ stateCopy[8 + i] ^ stateCopy[12 + i]);
+            colRep[i] = (byte) (GaloisField.gMul(stateCopy[i], 2) ^ GaloisField.gMul(stateCopy[4 + i], 3)
+                    ^ stateCopy[8 + i] ^ stateCopy[12 + i]);
         for (int i = 4; i < 8; i++)
-            colRep[i] = (byte) (stateCopy[i - 4] ^ (GaloisField.mul2Lookup[stateCopy[i] & 0xff])
-                    ^ (GaloisField.mul3Lookup[stateCopy[4 + i] & 0xff]) ^ stateCopy[8 + i]);
+            colRep[i] = (byte) (stateCopy[i - 4] ^ GaloisField.gMul(stateCopy[i], 2)
+                    ^ GaloisField.gMul(stateCopy[4 + i], 3) ^ stateCopy[8 + i]);
         for (int i = 8; i < 12; i++)
-            colRep[i] = (byte) (stateCopy[i - 8] ^ stateCopy[i - 4] ^ (GaloisField.mul2Lookup[stateCopy[i] & 0xff])
-                    ^ (GaloisField.mul3Lookup[stateCopy[4 + i] & 0xff]));
+            colRep[i] = (byte) (stateCopy[i - 8] ^ stateCopy[i - 4] ^ GaloisField.gMul(stateCopy[i], 2)
+                    ^ GaloisField.gMul(stateCopy[4 + i], 3));
         for (int i = 12; i < 16; i++)
-            colRep[i] = (byte) ((GaloisField.mul3Lookup[stateCopy[i - 12] & 0xff]) ^ stateCopy[i - 8]
-                    ^ stateCopy[i - 4] ^ (GaloisField.mul2Lookup[stateCopy[i] & 0xff]));
+            colRep[i] = (byte) (GaloisField.gMul(stateCopy[i - 12], 3) ^ stateCopy[i - 8]
+                    ^ stateCopy[i - 4] ^ GaloisField.gMul(stateCopy[i], 2));
 
         byte[] rowRep = {
                 colRep[0], colRep[4], colRep[8], colRep[12],

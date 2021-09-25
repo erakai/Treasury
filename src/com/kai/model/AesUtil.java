@@ -7,6 +7,12 @@ package com.kai.model;
 public class AesUtil {
     private AesUtil() {}
 
+    public static String byteToBinary(byte dec) {
+        StringBuilder binaryString = new StringBuilder(Integer.toBinaryString(dec & 0xff));
+        while (binaryString.length() != 8) binaryString.insert(0, "0");
+        return binaryString.toString();
+    }
+
     public static String decToHex(int dec) {
         StringBuilder reverseHex = new StringBuilder();
         while (dec > 0) {
