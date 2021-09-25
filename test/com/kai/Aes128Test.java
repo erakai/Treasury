@@ -1,6 +1,7 @@
 package com.kai;
 
 import com.kai.model.AES128;
+import com.kai.model.AesUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -59,6 +60,10 @@ public class Aes128Test {
         };
 
         AES128.shiftRows(actualBytes);
+        System.out.println("EXPECTED: ");
+        AesUtil.printByteArray(expectedBytes);
+        System.out.println("ACTUAL: ");
+        AesUtil.printByteArray(actualBytes);
         Assertions.assertArrayEquals(expectedBytes, actualBytes);
     }
 

@@ -14,6 +14,7 @@ public class AesUtil {
     }
 
     public static String decToHex(int dec) {
+        if (dec == 0) return "00";
         StringBuilder reverseHex = new StringBuilder();
         while (dec > 0) {
             int rem = dec % 16;
@@ -97,7 +98,7 @@ public class AesUtil {
 
         int i = 0;
         for (byte b: printArray) {
-            String s = AesUtil.decToHex(b & 0xff);
+            String s = decToHex(b & 0xff);
             if (s.length() == 1) s = "0" + s;
             System.out.print(s + "\t");
             if (++i % 4 == 0) System.out.println();

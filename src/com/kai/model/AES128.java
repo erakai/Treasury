@@ -75,33 +75,25 @@ public class AES128 {
      * @param state A 16-byte word.
      */
     public static void shiftRows(byte[] state) {
-        //TODO: Implement a better solution than shifting back/forth between column/row rep
-        byte[] colRep = {
-                state[0], state[4], state[8], state[12],
-                state[1], state[5], state[9], state[13],
-                state[2], state[6], state[10], state[14],
-                state[3], state[7], state[11], state[15]
-        };
+        byte[] stateCopy = new byte[state.length];
+        System.arraycopy(state, 0, stateCopy, 0, state.length);
 
-        for (int i = 1; i < 4; i++) {
-            byte[] b = new byte[4];
-            System.arraycopy(colRep, i * 4, b, 0, 4);
-
-            for (int j = 0; j < 4; j++) {
-                int posIncrease = j + i;
-                if (posIncrease >= 4) posIncrease -= 4;
-                colRep[(i * 4) + j] = b[posIncrease];
-            }
-        }
-
-        byte[] rowRep = {
-                colRep[0], colRep[4], colRep[8], colRep[12],
-                colRep[1], colRep[5], colRep[9], colRep[13],
-                colRep[2], colRep[6], colRep[10], colRep[14],
-                colRep[3], colRep[7], colRep[11], colRep[15]
-        };
-
-        System.arraycopy(rowRep, 0, state, 0, 16);
+        state[0] = stateCopy[0];
+        state[1] = stateCopy[5];
+        state[2] = stateCopy[10];
+        state[3] = stateCopy[15];
+        state[4] = stateCopy[4];
+        state[5] = stateCopy[9];
+        state[6] = stateCopy[14];
+        state[7] = stateCopy[3];
+        state[8] = stateCopy[8];
+        state[9] = stateCopy[13];
+        state[10] = stateCopy[2];
+        state[11] = stateCopy[7];
+        state[12] = stateCopy[12];
+        state[13] = stateCopy[1];
+        state[14] = stateCopy[6];
+        state[15] = stateCopy[11];
     }
 
     /**
@@ -115,7 +107,6 @@ public class AES128 {
      * @param state A 16-byte word / a 4x4 matrix
      */
     public static void mixColumns(byte[] state) {
-        //TODO: Implement a better solution than shifting back/forth between column/row rep
         byte[] colRep = {
                 state[0], state[4], state[8], state[12],
                 state[1], state[5], state[9], state[13],

@@ -1,6 +1,6 @@
 # Treasury
 
-A command-line tool to securely encrypt passwords and notes using AES-256 bit encryption.
+A command-line tool to securely encrypt passwords and notes using AES encryption.
 
 ----
 
