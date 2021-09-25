@@ -64,7 +64,7 @@ public class AES128 {
      *
      * @param state A 16-byte word.
      */
-    public static void subBytes(byte[] state) { //TODO: Write test
+    public static void subBytes(byte[] state) {
         for (int i = 0; i < state.length; i++) state[i] = (byte) GaloisField.sbox[state[i] & 0xff];
     }
 

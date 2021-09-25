@@ -115,7 +115,7 @@ public class RijndaelSchedule {
      * @return An array of 4 bytes with the rcon as the first value and 0 for the rest
      */
     public static byte[] rcon(int rc) {
-        //TODO: Correct rc=10 so it doesn't have to be hardcoded or make a table
+        //TODO: Correct rcon generation so rc=10 isn't hardcoded
         byte[] byteArray = {0, 0, 0, 0};
         if (rc == 0) return byteArray;
         byteArray[0] = (byte) Math.pow(2, rc-1);
