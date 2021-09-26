@@ -12,5 +12,19 @@ CLI to begin with, takes in a password and runs it through AES-256 before puttin
     - https://en.wikipedia.org/wiki/AES_key_schedule
     - https://stackoverflow.com/questions/4266756/can-we-make-unsigned-byte-in-java
 - SQL
+    - jdbc
 - java create command line tool
     - https://picocli.info/#_add_as_source
+
+
+Treasury command structure:
+
+    - ts store [name]
+        - enter password:, enter notes:
+    - ts list
+        - lists all currently stored password names
+    - ts retrieve name
+        - enter master password (?)
+    - ts info name
+        - prints notes about it and when stored
+    - ts find [-n name] [-r regex]

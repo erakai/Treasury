@@ -1,7 +1,5 @@
 package com.kai.model;
 
-import com.kai.main.Runner;
-
 import java.util.Base64;
 
 /**

@@ -1,4 +1,4 @@
-package com.kai.main;
+package com.kai.model;
 
 import com.kai.model.AES128;
 import com.kai.model.AesUtil;
@@ -9,7 +9,7 @@ import java.util.Scanner;
  * @author Kai Tinkess
  * @version Sep 22, 2021
  */
-public class Runner {
+public class EncryptionTester {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
