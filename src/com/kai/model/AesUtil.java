@@ -89,12 +89,7 @@ public class AesUtil {
             return;
         }
 
-        byte[] printArray = { // why is this how words are blocks are represented someone help
-                array[0], array[4], array[8], array[12],
-                array[1], array[5], array[9], array[13],
-                array[2], array[6], array[10], array[14],
-                array[3], array[7], array[11], array[15]
-        };
+        byte[] printArray = flipByteArray(array);
 
         int i = 0;
         for (byte b: printArray) {
@@ -104,6 +99,15 @@ public class AesUtil {
             if (++i % 4 == 0) System.out.println();
         }
         System.out.println("\n");
+    }
+
+    public static byte[] flipByteArray(byte[] array) {
+        return new byte[] {
+                array[0], array[4], array[8], array[12],
+                array[1], array[5], array[9], array[13],
+                array[2], array[6], array[10], array[14],
+                array[3], array[7], array[11], array[15]
+        };
     }
 
 }
