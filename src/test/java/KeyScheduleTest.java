@@ -1,4 +1,4 @@
-package com.kai;
+package test.java;
 
 import com.kai.model.AesUtil;
 import com.kai.model.RijndaelSchedule;

@@ -1,5 +1,3 @@
-package com.kai;
-
 import com.kai.model.AES128;
 import com.kai.model.AesUtil;
 import org.junit.jupiter.api.Assertions;
@@ -11,6 +9,7 @@ import org.junit.jupiter.api.Test;
  */
 public class Aes128Test {
 
+    /*
     @Test
     public void Aes128StringEncryptionTest() {
         String plaintext = "testtesttesttest";
@@ -20,6 +19,7 @@ public class Aes128Test {
 
         Assertions.assertEquals(expectedEncrypted, actualEncrypted);
     }
+     */
 
     @Test
     public void Aes128ByteEncryptionTest() {

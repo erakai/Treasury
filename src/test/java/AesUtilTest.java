@@ -1,5 +1,3 @@
-package com.kai;
-
 import com.kai.model.AesUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
