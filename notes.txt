@@ -11,11 +11,17 @@ CLI to begin with, takes in a password and runs it through AES-256 before puttin
     - https://engineering.purdue.edu/kak/compsec/NewLectures/Lecture8.pdf
     - https://en.wikipedia.org/wiki/AES_key_schedule
     - https://stackoverflow.com/questions/4266756/can-we-make-unsigned-byte-in-java
+
+    - https://csrc.nist.gov/csrc/media/publications/fips/197/final/documents/fips-197.pdf
+    - https://engineering.purdue.edu/kak/compsec/NewLectures/Lecture8.pdf
+    - https://www.devglan.com/corejava/java-aes-encypt-decrypt
+    - https://asecuritysite.com/encryption/padding
+    - https://security.stackexchange.com/questions/38828/how-can-i-securely-convert-a-string-password-to-a-key-used-in-aes
+    - https://en.wikipedia.org/wiki/PBKDF2
 - SQL
     - jdbc
 - java create command line tool
     - https://picocli.info/#_add_as_source
-
 
 Treasury command structure:
 
@@ -23,7 +29,7 @@ Treasury command structure:
         - enter password:, enter notes:
     - ts list
         - lists all currently stored password names
-    - ts retrieve name
+    - ts get name
         - enter master password (?)
     - ts info name
         - prints notes about it and when stored

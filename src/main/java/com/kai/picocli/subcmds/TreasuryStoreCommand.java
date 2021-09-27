@@ -3,25 +3,27 @@ package com.kai.picocli.subcmds;
 import com.kai.picocli.TextConstants;
 import picocli.CommandLine;
 
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * @author Kai Tinkess
  * @version Sep 26, 2021
  */
-@CommandLine.Command(name = "store", mixinStandardHelpOptions = true, description = TextConstants.storeDescription)
+@CommandLine.Command(name = "store", description = TextConstants.storeDescription, mixinStandardHelpOptions = true,
+        sortOptions = false, version = "0.0.1")
 public class TreasuryStoreCommand implements Runnable {
 
-    @CommandLine.Parameters(index = "0", description = "The identifier this password will be referred to by.")
+    @CommandLine.Parameters(index = "0", description = TextConstants.identifierDescription)
     private String identifier;
 
-    @CommandLine.Parameters(index = "1", description = "Password", interactive = true)
+    @CommandLine.Option(names = {"-p", "--password"}, description = "Signifies that a password will be entered.",
+            prompt = TextConstants.passwordPrompt, interactive = true, required = true)
     private char[] plainPassword;
 
     @Override
     public void run() {
-        System.out.println("Store Command Ran");
+        System.out.println("\nStore Command Ran");
         System.out.println("Identifier: " + identifier);
-        System.out.println("password: " + plainPassword);
+        System.out.println("password: " + Arrays.toString(plainPassword));
     }
 }

@@ -72,7 +72,6 @@ public class GaloisField {
             a <<= 1;
             if (carry) a ^= 0x1b;
             b >>= 1;
-            System.out.println();
         }
         return p;
     }

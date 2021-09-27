@@ -24,7 +24,8 @@ hs_err_pid*
 
 # Maven
 log/
-target/
+target/*
+!target/Treasury-0.0.1-SNAPSHOT.jar
 
 # Inclusions
 !lib/**

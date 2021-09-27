@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 public class KeyScheduleTest {
 
     @Test
-    public void keyGen128Test() {
+    public void testKeyGen128() {
         byte[] initKey = {
                 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
                 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
@@ -42,7 +42,7 @@ public class KeyScheduleTest {
     }
 
     @Test
-    public void rotateTest() {
+    public void testRotate() {
         byte[] byteArray = new byte[4];
         byteArray[0] = 0x1d;
         byteArray[1] = 0x2c;
@@ -59,7 +59,7 @@ public class KeyScheduleTest {
     }
 
     @Test
-    public void rconTest() {
+    public void testRcon() {
         byte[] rconValues = {0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, (byte) 0x80, 0x1b, 0x36};
 
         for (int i = 0; i < rconValues.length; i++) Assertions.assertEquals(rconValues[i], RijndaelSchedule.rcon(i)[0]);

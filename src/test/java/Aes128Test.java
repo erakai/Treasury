@@ -22,7 +22,7 @@ public class Aes128Test {
      */
 
     @Test
-    public void Aes128ByteEncryptionTest() {
+    public void testAes128ByteEncryption() {
         //Test vectors given by https://csrc.nist.gov/csrc/media/publications/fips/197/final/documents/fips-197.pdf
         byte[][] blocks = {
                 {0x32, 0x43, (byte) 0xf6, (byte) 0xa8, (byte) 0x88, 0x5a, 0x30, (byte) 0x8d, 0x31,
@@ -44,7 +44,7 @@ public class Aes128Test {
     }
 
     @Test
-    public void Aes128ByteDecryptionTest() {
+    public void testAes128ByteDecryption() {
         byte[][] blocks = {
                 {0x39, 0x25, (byte) 0x84, 0x1d, 0x02, (byte) 0xdc, 0x09, (byte) 0xfb, (byte) 0xdc, 0x11,
                         (byte) 0x85, (byte) 0x97, 0x19, 0x6a, 0x0b, 0x32},
@@ -65,7 +65,7 @@ public class Aes128Test {
     }
 
     @Test
-    public void subBytesTest() {
+    public void testSubBytes() {
         byte[] actualBytes = {0x3f, 0x02, (byte) 0xff, 0x5e};
         byte[] expectedBytes = {0x75, 0x77, 0x16, 0x58};
 
@@ -74,7 +74,7 @@ public class Aes128Test {
     }
 
     @Test
-    public void shiftRowsTest() {
+    public void testShiftRows() {
         byte[] actualBytes = {
                 0x00, 0x01, 0x02, 0x03,
                 0x04, 0x05, 0x06, 0x07,
@@ -89,15 +89,11 @@ public class Aes128Test {
         };
 
         AES128.shiftRows(actualBytes);
-        System.out.println("EXPECTED: ");
-        AesUtil.printByteArray(expectedBytes);
-        System.out.println("ACTUAL: ");
-        AesUtil.printByteArray(actualBytes);
         Assertions.assertArrayEquals(expectedBytes, actualBytes);
     }
 
     @Test
-    public void mixColumnsTests() {
+    public void testMixColumns() {
         byte[] actualBytes = {
                 (byte) 0xd4, (byte) 0xbf,        0x5d,        0x30,
                 (byte) 0xe0, (byte) 0xb4,        0x52, (byte) 0xae,
