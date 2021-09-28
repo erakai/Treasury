@@ -16,8 +16,8 @@ public class TreasuryStoreCommand implements Runnable {
     @CommandLine.Parameters(index = "0", description = TextConstants.identifierDescription)
     private String identifier;
 
-    @CommandLine.Option(names = {"-p", "--password"}, description = "Signifies that a password will be entered.",
-            prompt = TextConstants.passwordPrompt, interactive = true, required = true)
+    @CommandLine.Option(names = {"-p", "--password"}, description = TextConstants.plainPasswordDescription,
+            prompt = TextConstants.plainPasswordPrompt, interactive = true, required = true)
     private char[] plainPassword;
 
     @Override

@@ -13,6 +13,9 @@ public class TextConstants {
     public final static String listDescription = "List all the currently stored password's identifiers.";
 
     public final static String identifierDescription = "The identifier this password will be referred to by.";
+    public final static String plainPasswordDescription = "Signifies that a password will be entered.";
+    public final static String mainPasswordDescription = "Signifies that the main password will be entered.";
 
-    public final static String passwordPrompt = "|| Enter associated password: ";
+    public final static String plainPasswordPrompt = "|| Enter associated password: ";
+    public final static String mainPasswordPrompt = "|| Enter main password: ";
 }

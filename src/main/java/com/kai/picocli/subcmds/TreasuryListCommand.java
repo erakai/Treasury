@@ -12,6 +12,6 @@ public class TreasuryListCommand implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("List command ran.");
+        System.out.println("\nList command ran.");
     }
 }

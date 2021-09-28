@@ -22,6 +22,8 @@ CLI to begin with, takes in a password and runs it through AES-256 before puttin
     - jdbc
 - java create command line tool
     - https://picocli.info/#_add_as_source
+    - https://javadoc.io/static/info.picocli/picocli/3.9.0/picocli/CommandLine.Option.html#order--
+    - 
 
 Treasury command structure:
 
