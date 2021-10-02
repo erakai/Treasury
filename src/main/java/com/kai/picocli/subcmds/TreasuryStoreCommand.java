@@ -22,6 +22,7 @@ public class TreasuryStoreCommand implements Runnable {
 
     @Override
     public void run() {
+        //Make sure to sanitize identifier
         System.out.println("\nStore Command Ran");
         System.out.println("Identifier: " + identifier);
         System.out.println("password: " + Arrays.toString(plainPassword));
