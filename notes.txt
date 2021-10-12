@@ -20,6 +20,7 @@ CLI to begin with, takes in a password and runs it through AES-256 before puttin
     - https://en.wikipedia.org/wiki/PBKDF2
 - SQL
     - jdbc
+    - https://sqlcrashcourse.com/
 - java create command line tool
     - https://picocli.info/#_add_as_source
     - https://javadoc.io/static/info.picocli/picocli/3.9.0/picocli/CommandLine.Option.html#order--

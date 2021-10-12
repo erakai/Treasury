@@ -11,7 +11,7 @@ A command-line tool to securely encrypt passwords and notes using AES encryption
 ### Technology
 - Built solely in Java
 - Picocli Command Line library
-- MySQL for the database, JDBC to connect
+- SQLite for the database, JDBC to connect
 
 ### Contributors
 - Kai T

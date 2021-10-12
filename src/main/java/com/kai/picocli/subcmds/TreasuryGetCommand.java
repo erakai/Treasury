@@ -10,7 +10,7 @@ import java.util.Arrays;
  * @version Sep 26, 2021
  */
 @CommandLine.Command(name = "get", mixinStandardHelpOptions = true, description = TextConstants.getDescription,
-    sortOptions = false, version = "0.0.1")
+    sortOptions = false, version = TextConstants.version)
 public class TreasuryGetCommand implements Runnable {
 
     @CommandLine.Parameters(index = "0", description = TextConstants.identifierDescription)

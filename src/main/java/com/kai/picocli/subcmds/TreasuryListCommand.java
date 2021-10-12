@@ -7,7 +7,8 @@ import picocli.CommandLine;
  * @author Kai Tinkess
  * @version Sep 26, 2021
  */
-@CommandLine.Command(name = "list", mixinStandardHelpOptions = true, description = TextConstants.listDescription)
+@CommandLine.Command(name = "list", mixinStandardHelpOptions = true, description = TextConstants.listDescription,
+        version = TextConstants.version)
 public class TreasuryListCommand implements Runnable {
 
     @Override

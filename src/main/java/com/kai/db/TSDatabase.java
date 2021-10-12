@@ -1,9 +1,6 @@
 package com.kai.db;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Singleton class that manages the SQLite embedded database.
@@ -26,8 +23,10 @@ public class TSDatabase {
 
     public void connect() {
         try (Connection conn = DriverManager.getConnection(url)) {
-            DatabaseMetaData meta = conn.getMetaData();
-            System.out.println("Database with driver " + meta.getDriverName() + " has been created.");
+            Statement statement = conn.createStatement();
+            String initSql = "CREATE TABLE TS " +
+                    "(IDENT"
+
         } catch (SQLException ex) { ex.printStackTrace(); }
     }
 
