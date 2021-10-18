@@ -1,6 +1,7 @@
 package com.kai.db;
 
 import java.sql.*;
+import java.util.List;
 
 /**
  * Singleton class that manages the SQLite embedded database.
@@ -24,10 +25,33 @@ public class TSDatabase {
     public void connect() {
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement statement = conn.createStatement();
-            String initSql = "CREATE TABLE TS " +
-                    "(IDENT"
-
+            String initSql = "CREATE TABLE TREASURY (" +
+                                "Identifier varchar(255)," +
+                                "EncPwd varchar(255)," +
+                                "Notes varchar(255)" +
+                             ");";
+            statement.execute(initSql);
         } catch (SQLException ex) { ex.printStackTrace(); }
+    }
+
+    public String getHashedMasterPassword() {
+        return null;
+    }
+
+    public boolean storeHashedMasterPassword(String hexPassword) {
+        return false;
+    }
+
+    public boolean stashPassword(String identifier, String encryptedPassword) {
+        return false;
+    }
+
+    public String retrievePassword(String identifier) {
+        return null;
+    }
+
+    public List<String> getIdentifiers() {
+        return null;
     }
 
 }

@@ -21,4 +21,7 @@ public class TextConstants {
 
     public final static String plainPasswordPrompt = "|| Enter associated password: ";
     public final static String mainPasswordPrompt = "|| Enter main password: ";
+
+    public final static String notInitializedError = "\"Please initialize Treasury first. This can be done by running\\n\\ttreasury init -m\"";
+    public final static String alreadyInitializedError = "Treasury has already been initialized.";
 }

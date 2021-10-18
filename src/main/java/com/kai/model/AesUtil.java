@@ -83,13 +83,16 @@ public class AesUtil {
         return dec;
     }
 
-    public static void printByteArray(byte[] array) {
-        if (array.length != 16) {
-            System.out.println("Byte array isn't a word.");
-            return;
-        }
+    public static void printByteArray(byte[] array, boolean isWord) {
+        byte[] printArray = array;
+        if (isWord) {
+            if (array.length != 16) {
+                System.out.println("Byte array isn't a word.");
+                return;
+            }
 
-        byte[] printArray = flipByteArray(array);
+            printArray = flipByteArray(array);
+        }
 
         int i = 0;
         for (byte b: printArray) {

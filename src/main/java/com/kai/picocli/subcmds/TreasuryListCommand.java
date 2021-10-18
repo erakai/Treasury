@@ -1,6 +1,7 @@
 package com.kai.picocli.subcmds;
 
 import com.kai.picocli.TextConstants;
+import com.kai.picocli.Treasury;
 import picocli.CommandLine;
 
 /**
@@ -13,6 +14,11 @@ public class TreasuryListCommand implements Runnable {
 
     @Override
     public void run() {
+        if (!Treasury.isInitialized()) {
+            System.out.println(TextConstants.notInitializedError);
+            return;
+        }
+
         System.out.println("\nList command ran.");
     }
 }

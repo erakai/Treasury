@@ -17,22 +17,20 @@ import picocli.CommandLine;
         })
 public class Treasury implements Runnable {
 
-    public static boolean initialized;
+    private static boolean initialized;
 
     public static void main(String[] args) {
-        checkInitialized();
-
-        if (initialized || args[0].startsWith("init")) {
-            int exitCode = new CommandLine(new Treasury()).execute(args);
-            System.exit(exitCode);
-        } else {
-            System.out.println("Please initialize Treasury first. This can be done by running\n\ttreasury init -m");
-        }
+        int exitCode = new CommandLine(new Treasury()).execute(args);
+        System.exit(exitCode);
     }
 
-    private static void checkInitialized() {
+    public static void checkInitialized() {
         initialized = false;
         //TODO: Update checkInitialized();
+    }
+
+    public static boolean isInitialized() {
+        return initialized;
     }
 
     @Override

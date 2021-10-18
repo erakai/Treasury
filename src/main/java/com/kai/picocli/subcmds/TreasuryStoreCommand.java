@@ -1,6 +1,7 @@
 package com.kai.picocli.subcmds;
 
 import com.kai.picocli.TextConstants;
+import com.kai.picocli.Treasury;
 import picocli.CommandLine;
 
 import java.util.Arrays;
@@ -22,6 +23,11 @@ public class TreasuryStoreCommand implements Runnable {
 
     @Override
     public void run() {
+        if (!Treasury.isInitialized()) {
+            System.out.println(TextConstants.notInitializedError);
+            return;
+        }
+
         //Make sure to sanitize identifier
         System.out.println("\nStore Command Ran");
         System.out.println("Identifier: " + identifier);
