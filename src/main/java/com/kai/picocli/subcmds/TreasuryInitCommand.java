@@ -1,5 +1,6 @@
 package com.kai.picocli.subcmds;
 
+import com.kai.db.TSDatabase;
 import com.kai.model.HashController;
 import com.kai.picocli.TextConstants;
 import com.kai.picocli.Treasury;
@@ -24,6 +25,8 @@ public class TreasuryInitCommand implements Runnable {
             System.out.println(TextConstants.alreadyInitializedError);
             return;
         }
+
+        TSDatabase.instance().initTable();
 
         String mp = String.valueOf(mainPassword);
         String hash = HashController.byteToHex(HashController.hash(mp));

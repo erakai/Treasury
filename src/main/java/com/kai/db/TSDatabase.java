@@ -1,6 +1,7 @@
 package com.kai.db;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,35 +23,71 @@ public class TSDatabase {
         return instance;
     }
 
-    public void connect() {
+    private void executeWithoutResults(String sql) {
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement statement = conn.createStatement();
-            String initSql = "CREATE TABLE TREASURY (" +
-                                "Identifier varchar(255)," +
-                                "EncPwd varchar(255)," +
-                                "Notes varchar(255)" +
-                             ");";
-            statement.execute(initSql);
+            statement.execute(sql);
         } catch (SQLException ex) { ex.printStackTrace(); }
     }
 
+    public void initTable() {
+        executeWithoutResults( "CREATE TABLE TREASURY (" +
+                "Identifier varchar(255)," +
+                "EncPwd varchar(255)," +
+                "Notes varchar(255)" +
+                ");");
+    }
+
     public String getHashedMasterPassword() {
-        return null;
+        return retrievePassword("Master!!Password");
     }
 
     public boolean storeHashedMasterPassword(String hexPassword) {
-        return false;
+        if (getHashedMasterPassword() == null) return false;
+        executeWithoutResults("INSERT INTO TREASURY (Identifier, EncPwd, Notes" +
+                    "VALUES ('Master!!Password', '" + hexPassword + "', 'mp'");
+        return true;
     }
 
-    public boolean stashPassword(String identifier, String encryptedPassword) {
-        return false;
+    public boolean stashPassword(String identifier, String encryptedPassword, String notes) {
+        //TODO: Check if the password already exists
+        executeWithoutResults(String.format("INSERT INTO TREASURY (Identifier, EncPwd, Notes" +
+                "VALUES ('%s', '%s', '%s", identifier, encryptedPassword, notes));
+        return true;
     }
 
     public String retrievePassword(String identifier) {
+        String sql = "SELECT EncPwd, Notes" +
+                     "FROM TREASURY WHERE identifier = ?";
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            PreparedStatement pstmt  = conn.prepareStatement(sql);
+            pstmt.setString(1, identifier);
+            ResultSet rs = pstmt.executeQuery(sql);
+
+            StringBuilder results = new StringBuilder();
+            while (rs.next()) {
+                results.append(rs.getString("EncPwd"))
+                        .append("\t")
+                        .append(rs.getString("Notes"))
+                        .append("\n");
+            }
+            return results.toString().trim();
+        } catch (SQLException ex) { ex.printStackTrace(); }
         return null;
     }
 
     public List<String> getIdentifiers() {
+        String sql = "SELECT Identifier FROM TREASURY";
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt  = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            List<String> identifiers = new ArrayList<>();
+            while (rs.next()) identifiers.add(rs.getString("Identifier"));
+            return identifiers;
+        } catch (SQLException ex) { ex.printStackTrace(); }
         return null;
     }
 

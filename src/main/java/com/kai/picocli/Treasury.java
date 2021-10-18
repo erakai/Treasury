@@ -1,5 +1,6 @@
 package com.kai.picocli;
 
+import com.kai.db.TSDatabase;
 import com.kai.picocli.subcmds.*;
 import picocli.CommandLine;
 
@@ -20,6 +21,7 @@ public class Treasury implements Runnable {
     private static boolean initialized;
 
     public static void main(String[] args) {
+        //TODO: Sanitize inputs
         int exitCode = new CommandLine(new Treasury()).execute(args);
         System.exit(exitCode);
     }

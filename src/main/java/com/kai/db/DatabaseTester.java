@@ -7,7 +7,7 @@ package com.kai.db;
 public class DatabaseTester {
 
     public static void main(String[] args) {
-        TSDatabase.instance().connect();
+//        TSDatabase.instance().connect();
     }
 
 }
