@@ -6,6 +6,9 @@ import com.kai.picocli.TextConstants;
 import com.kai.picocli.Treasury;
 import picocli.CommandLine;
 
+import java.sql.SQLException;
+import java.util.Arrays;
+
 /**
  * @author Kai Tinkess
  * @version Oct 12, 2021
@@ -27,12 +30,15 @@ public class TreasuryInitCommand implements Runnable {
         }
 
         TSDatabase.instance().initTable();
+        String hash = HashController.byteToHex(HashController.hash(String.valueOf(mainPassword)));
 
-        String mp = String.valueOf(mainPassword);
-        String hash = HashController.byteToHex(HashController.hash(mp));
+        try {
+            TSDatabase.instance().stashHashedMasterPassword(hash);
+        } catch (SQLException e) { e.printStackTrace();}
+        Treasury.updateInitialized();
 
-        System.out.println("Main password hashed, salted, and stored.");
-        System.out.println("You can now begin using Treasury. Run\n\ttreasury --help\nfor more information.");
-        Treasury.checkInitialized();
-    }
+        System.out.println(TextConstants.initRan);
+
+        //Clear from memory
+        Arrays.fill(mainPassword, ' ');    }
 }

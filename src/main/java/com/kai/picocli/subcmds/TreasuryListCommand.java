@@ -1,8 +1,11 @@
 package com.kai.picocli.subcmds;
 
+import com.kai.db.TSDatabase;
 import com.kai.picocli.TextConstants;
 import com.kai.picocli.Treasury;
 import picocli.CommandLine;
+
+import java.util.List;
 
 /**
  * @author Kai Tinkess
@@ -19,6 +22,14 @@ public class TreasuryListCommand implements Runnable {
             return;
         }
 
-        System.out.println("\nList command ran.");
+        List<String> identifiers = TSDatabase.instance().getIdentifiers();
+        if (identifiers.size() == 1) {
+            System.out.println(TextConstants.noIdentifiersError);
+        }
+
+        System.out.println("Identifiers:");
+        for (String ident: identifiers) {
+            if (!ident.equals(TextConstants.mainPasswordName)) System.out.println("\t" + ident);
+        }
     }
 }

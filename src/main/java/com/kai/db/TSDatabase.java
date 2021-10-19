@@ -1,5 +1,7 @@
 package com.kai.db;
 
+import com.kai.picocli.TextConstants;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,7 @@ public class TSDatabase {
 
     //TODO: Update with relative path
     private static final String url =
-            "jdbc:sqlite:C:/Users/kaiti/Documents/Programming/MediumProjects/Treasury/src/main/resources/treasury.db";
+            "jdbc:sqlite:Documents/Programming/MediumProjects/Treasury/src/main/resources/treasury.db";
 
     public static TSDatabase instance() {
         if (instance == null) instance = new TSDatabase();
@@ -38,14 +40,14 @@ public class TSDatabase {
                 ");");
     }
 
-    public String getHashedMasterPassword() {
-        return retrievePassword("Master!!Password");
+    public String retrieveHashedMasterPassword() throws SQLException {
+        return retrievePassword(TextConstants.mainPasswordName);
     }
 
-    public boolean storeHashedMasterPassword(String hexPassword) {
-        if (getHashedMasterPassword() == null) return false;
-        executeWithoutResults("INSERT INTO TREASURY (Identifier, EncPwd, Notes" +
-                    "VALUES ('Master!!Password', '" + hexPassword + "', 'mp'");
+    public boolean stashHashedMasterPassword(String hexPassword) throws SQLException {
+        if (retrieveHashedMasterPassword() == null) return false;
+        executeWithoutResults("INSERT INTO TREASURY (Identifier, EncPwd, Notes)" +
+                    "VALUES ('" + TextConstants.mainPasswordName + "', '" + hexPassword + "', 'The Master password')");
         return true;
     }
 
@@ -56,25 +58,23 @@ public class TSDatabase {
         return true;
     }
 
-    public String retrievePassword(String identifier) {
-        String sql = "SELECT EncPwd, Notes" +
+    public String retrievePassword(String identifier) throws SQLException {
+        String sql = "SELECT EncPwd " +
                      "FROM TREASURY WHERE identifier = ?";
 
-        try (Connection conn = DriverManager.getConnection(url)) {
-            PreparedStatement pstmt  = conn.prepareStatement(sql);
-            pstmt.setString(1, identifier);
-            ResultSet rs = pstmt.executeQuery(sql);
+        Connection conn = DriverManager.getConnection(url);
+        PreparedStatement pstmt  = conn.prepareStatement(sql);
+        pstmt.setString(1, identifier);
+        ResultSet rs = pstmt.executeQuery();
 
-            StringBuilder results = new StringBuilder();
-            while (rs.next()) {
-                results.append(rs.getString("EncPwd"))
-                        .append("\t")
-                        .append(rs.getString("Notes"))
-                        .append("\n");
-            }
-            return results.toString().trim();
-        } catch (SQLException ex) { ex.printStackTrace(); }
-        return null;
+        StringBuilder results = new StringBuilder();
+        while (rs.next()) {
+            results.append(rs.getString("EncPwd"))
+                    .append("\t")
+                    .append(rs.getString("Notes"))
+                    .append("\n");
+        }
+        return results.toString().trim();
     }
 
     public List<String> getIdentifiers() {

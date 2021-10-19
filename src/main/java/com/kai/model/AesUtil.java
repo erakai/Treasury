@@ -1,5 +1,7 @@
 package com.kai.model;
 
+import java.util.Base64;
+
 /**
  * @author Kai Tinkess
  * @version Sep 22, 2021
@@ -11,6 +13,12 @@ public class AesUtil {
         StringBuilder binaryString = new StringBuilder(Integer.toBinaryString(dec & 0xff));
         while (binaryString.length() != 8) binaryString.insert(0, "0");
         return binaryString.toString();
+    }
+
+    public static String blocksToString(byte[][] blocks) {
+        StringBuilder encryptedString = new StringBuilder();
+        for (byte[] word: blocks) encryptedString.append(Base64.getEncoder().encodeToString(word));
+        return encryptedString.toString();
     }
 
     public static String decToHex(int dec) {
@@ -111,6 +119,15 @@ public class AesUtil {
                 array[2], array[6], array[10], array[14],
                 array[3], array[7], array[11], array[15]
         };
+    }
+
+    //TODO: Write test for convertToWords()
+    public static byte[][] convertToWords(byte[] array) {
+        byte[][] words = new byte[array.length / 16  + 1][16];
+        for (int i = 0; i < array.length; i++) {
+            words[i / 16][i % 16] = array[i];
+        }
+        return words;
     }
 
 }

@@ -11,24 +11,28 @@ import picocli.CommandLine;
 @CommandLine.Command(name = "treasury", aliases = {"ts", "treas"}, mixinStandardHelpOptions = true,
         version = ("Treasury " + TextConstants.version), description = TextConstants.treasuryDescription,
         subcommands = {
+                TreasuryInitCommand.class,
                 TreasuryListCommand.class,
                 TreasuryGetCommand.class,
                 TreasuryStoreCommand.class,
-                TreasuryInitCommand.class,
         })
 public class Treasury implements Runnable {
 
-    private static boolean initialized;
+    private static boolean initialized = false;
 
     public static void main(String[] args) {
         //TODO: Sanitize inputs
+        updateInitialized();
         int exitCode = new CommandLine(new Treasury()).execute(args);
         System.exit(exitCode);
     }
 
-    public static void checkInitialized() {
-        initialized = false;
-        //TODO: Update checkInitialized();
+    public static void updateInitialized() {
+        try {
+            initialized = (TSDatabase.instance().retrieveHashedMasterPassword() != null);
+        } catch (Exception ex) {
+            System.out.println(TextConstants.loadingDBError);
+        }
     }
 
     public static boolean isInitialized() {
@@ -37,6 +41,6 @@ public class Treasury implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Treasury Command Ran");
+        System.out.println(TextConstants.noParamsError);
     }
 }
