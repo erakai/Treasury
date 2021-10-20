@@ -3,6 +3,10 @@ package com.kai.db;
 import com.kai.picocli.TextConstants;
 import com.kai.picocli.Treasury;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +21,23 @@ public class TSDatabase {
     private static TSDatabase instance;
     private TSDatabase() {}
 
-    //TODO: Figure out why this url is always relative to where you run the jar from
-    private static final String url =
-            "jdbc:sqlite:treasury.db";
+    private static String url;
+
+    private void createUrl() {
+        try {
+            Files.createDirectories(Paths.get("treasury"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+         url = "jdbc:sqlite://treasury/treasury.db"; //Figure out why WSL messes this up
+    }
 
     public static TSDatabase instance() {
-        if (instance == null) instance = new TSDatabase();
+        if (instance == null) {
+            instance = new TSDatabase();
+            instance.createUrl();
+        }
         return instance;
     }
 
