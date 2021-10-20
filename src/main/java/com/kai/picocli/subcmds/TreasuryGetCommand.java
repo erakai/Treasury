@@ -34,20 +34,18 @@ public class TreasuryGetCommand implements Runnable {
 
         try {
             String hash = HashController.byteToHex(HashController.hash(String.valueOf(mainPassword)));
-            System.out.println("G: " + hash);
-            System.out.println("M: " + TSDatabase.instance().retrieveHashedMasterPassword());
             if (!hash.equals(TSDatabase.instance().retrieveHashedMasterPassword())) {
                 System.out.println(TextConstants.incorrectMasterPasswordError);
                 return;
             }
 
             String hexPassword = TSDatabase.instance().retrievePassword(identifier);
-            if (hexPassword == null || hexPassword.equals(TextConstants.mainPasswordName)) {
+            if (hexPassword == null || identifier.equals(TextConstants.mainPasswordName)) {
                 System.out.println(TextConstants.identifierNotFoundError);
                 return;
             }
 
-            byte[][] bytePassword = AesUtil.convertToWords(HashController.hexToByte(TSDatabase.instance().retrievePassword(identifier)));
+            byte[][] bytePassword = AesUtil.singleByteArrayToMatrix(HashController.hexToByte(TSDatabase.instance().retrievePassword(identifier)));
             AES128.decrypt(bytePassword, HashController.hexToByte(hash));
             String password = AesUtil.blocksToString(bytePassword);
 

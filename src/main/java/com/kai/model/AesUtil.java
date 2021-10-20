@@ -1,6 +1,8 @@
 package com.kai.model;
 
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * @author Kai Tinkess
@@ -19,6 +21,32 @@ public class AesUtil {
         StringBuilder encryptedString = new StringBuilder();
         for (byte[] word: blocks) encryptedString.append(Base64.getEncoder().encodeToString(word));
         return encryptedString.toString();
+    }
+
+    public static byte[][] stringToBlocks(String s) {
+        return singleByteArrayToMatrix(Base64.getDecoder().decode(s));
+    }
+
+    //TODO: Write test for convertToWords()
+    public static byte[][] singleByteArrayToMatrix(byte[] array) {
+        byte[][] words = new byte[array.length / 16  + 1][16];
+        for (int i = 0; i < array.length; i++) {
+            words[i / 16][i % 16] = array[i];
+        }
+        return words;
+    }
+
+    public static byte[] matrixByteArrayToSingle(byte[][] blocks) {
+        List<Byte> bytes = new ArrayList<>();
+        for (int i = 0; i < blocks.length; i++) {
+            for (int j = 0; j < blocks[i].length; j++) {
+                bytes.add(blocks[i][j]);
+            }
+        }
+
+        byte[] array = new byte[bytes.size()];
+        for (int i = 0; i < bytes.size(); i++) array[i] = bytes.get(i);
+        return array;
     }
 
     public static String decToHex(int dec) {
@@ -119,15 +147,6 @@ public class AesUtil {
                 array[2], array[6], array[10], array[14],
                 array[3], array[7], array[11], array[15]
         };
-    }
-
-    //TODO: Write test for convertToWords()
-    public static byte[][] convertToWords(byte[] array) {
-        byte[][] words = new byte[array.length / 16  + 1][16];
-        for (int i = 0; i < array.length; i++) {
-            words[i / 16][i % 16] = array[i];
-        }
-        return words;
     }
 
 }

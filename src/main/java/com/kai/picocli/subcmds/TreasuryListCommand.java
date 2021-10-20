@@ -25,6 +25,7 @@ public class TreasuryListCommand implements Runnable {
         List<String> identifiers = TSDatabase.instance().getIdentifiers();
         if (identifiers.size() == 1) {
             System.out.println(TextConstants.noIdentifiersError);
+            return;
         }
 
         System.out.println("Identifiers:");

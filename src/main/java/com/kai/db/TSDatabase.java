@@ -1,6 +1,7 @@
 package com.kai.db;
 
 import com.kai.picocli.TextConstants;
+import com.kai.picocli.Treasury;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,11 +34,15 @@ public class TSDatabase {
     }
 
     public void initTable() {
-        executeWithoutResults( "CREATE TABLE TREASURY (" +
+        executeWithoutResults( "CREATE TABLE Treasury (" +
                 "Identifier varchar(255)," +
                 "EncPwd varchar(255)," +
                 "Notes varchar(255)" +
                 ");");
+    }
+
+    public void resetTable() {
+        executeWithoutResults("DROP TABLE Treasury");
     }
 
     public String retrieveHashedMasterPassword() throws SQLException {
@@ -46,21 +51,21 @@ public class TSDatabase {
 
     public boolean stashHashedMasterPassword(String hexPassword) throws SQLException {
         if (retrieveHashedMasterPassword() == null) return false;
-        executeWithoutResults("INSERT INTO TREASURY (Identifier, EncPwd, Notes)" +
+        executeWithoutResults("INSERT INTO Treasury (Identifier, EncPwd, Notes)" +
                     "VALUES ('" + TextConstants.mainPasswordName + "', '" + hexPassword + "', 'The Master password')");
         return true;
     }
 
     public boolean stashPassword(String identifier, String encryptedPassword, String notes) {
         //TODO: Check if the password already exists
-        executeWithoutResults(String.format("INSERT INTO TREASURY (Identifier, EncPwd, Notes" +
+        executeWithoutResults(String.format("INSERT INTO Treasury (Identifier, EncPwd, Notes" +
                 "VALUES ('%s', '%s', '%s", identifier, encryptedPassword, notes));
         return true;
     }
 
     public String retrievePassword(String identifier) throws SQLException {
         String sql = "SELECT EncPwd " +
-                     "FROM TREASURY WHERE identifier = ?";
+                     "FROM Treasury WHERE identifier = ?";
 
         Connection conn = DriverManager.getConnection(url);
         PreparedStatement pstmt  = conn.prepareStatement(sql);
@@ -69,16 +74,13 @@ public class TSDatabase {
 
         StringBuilder results = new StringBuilder();
         while (rs.next()) {
-            results.append(rs.getString("EncPwd"))
-                    .append("\t")
-                    .append(rs.getString("Notes"))
-                    .append("\n");
+            results.append(rs.getString("EncPwd"));
         }
         return results.toString().trim();
     }
 
     public List<String> getIdentifiers() {
-        String sql = "SELECT Identifier FROM TREASURY";
+        String sql = "SELECT Identifier FROM Treasury";
 
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt  = conn.createStatement();

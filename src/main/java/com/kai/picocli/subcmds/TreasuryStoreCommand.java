@@ -1,9 +1,14 @@
 package com.kai.picocli.subcmds;
 
+import com.kai.db.TSDatabase;
+import com.kai.model.AES128;
+import com.kai.model.AesUtil;
+import com.kai.model.HashController;
 import com.kai.picocli.TextConstants;
 import com.kai.picocli.Treasury;
 import picocli.CommandLine;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 /**
@@ -28,9 +33,15 @@ public class TreasuryStoreCommand implements Runnable {
             return;
         }
 
-        //Make sure to sanitize identifier
-        System.out.println("\nStore Command Ran");
-        System.out.println("Identifier: " + identifier);
-        System.out.println("password: " + Arrays.toString(plainPassword));
+        try {
+            String stringPwd = String.valueOf(plainPassword);
+            byte[][] encPwd = AesUtil.stringToBlocks(stringPwd);
+            byte[] key = HashController.hexToByte(TSDatabase.instance().retrieveHashedMasterPassword());
+            AES128.encrypt(encPwd, key);
+            String encStringPwd = HashController.byteToHex(AesUtil.matrixByteArrayToSingle(encPwd));
+
+            TSDatabase.instance().stashPassword(identifier, encStringPwd, "a password");
+            System.out.println(TextConstants.storeRan + identifier + ".");
+        } catch (SQLException ex) { ex.printStackTrace(); }
     }
 }

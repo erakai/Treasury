@@ -19,7 +19,7 @@ import java.util.Arrays;
 public class TreasuryInitCommand implements Runnable {
 
     @CommandLine.Option(names = {"-m", "--mainpassword"}, description = TextConstants.mainPasswordDescription,
-            prompt = TextConstants.mainPasswordPrompt, interactive = true, required = true)
+            prompt = TextConstants.createMainPasswordPrompt, interactive = true, required = true)
     private char[] mainPassword;
 
     @Override

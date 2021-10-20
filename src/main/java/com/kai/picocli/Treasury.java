@@ -15,6 +15,7 @@ import picocli.CommandLine;
                 TreasuryListCommand.class,
                 TreasuryGetCommand.class,
                 TreasuryStoreCommand.class,
+                TreasuryResetCommand.class
         })
 public class Treasury implements Runnable {
 
@@ -22,6 +23,7 @@ public class Treasury implements Runnable {
 
     public static void main(String[] args) {
         //TODO: Sanitize inputs
+
         updateInitialized();
         int exitCode = new CommandLine(new Treasury()).execute(args);
         System.exit(exitCode);
@@ -32,6 +34,7 @@ public class Treasury implements Runnable {
             initialized = (TSDatabase.instance().retrieveHashedMasterPassword() != null);
         } catch (Exception ex) {
             System.out.println(TextConstants.loadingDBError);
+//            ex.printStackTrace();
         }
     }
 
