@@ -1,6 +1,8 @@
 package com.kai.model;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -19,17 +21,24 @@ public class AesUtil {
 
     public static String blocksToString(byte[][] blocks) {
         StringBuilder encryptedString = new StringBuilder();
-        for (byte[] word: blocks) encryptedString.append(Base64.getEncoder().encodeToString(word));
+        for (byte[] word: blocks) {
+            List<Byte> stringBytes = new ArrayList<>();
+            for (byte b: word) if (b != 0x00) stringBytes.add(b);
+
+            byte[] stringWord = new byte[stringBytes.size()];
+            for (int i = 0; i < stringBytes.size(); i++) stringWord[i] = stringBytes.get(i);
+            encryptedString.append(new String(Base64.getDecoder().decode(new String(stringWord).getBytes(StandardCharsets.UTF_8))));
+        }
         return encryptedString.toString();
     }
 
     public static byte[][] stringToBlocks(String s) {
-        return singleByteArrayToMatrix(Base64.getDecoder().decode(s));
+        return singleByteArrayToMatrix(Base64.getEncoder().encode(s.getBytes(StandardCharsets.UTF_8)));
     }
 
     //TODO: Write test for convertToWords()
     public static byte[][] singleByteArrayToMatrix(byte[] array) {
-        byte[][] words = new byte[array.length / 16  + 1][16];
+        byte[][] words = new byte[(array.length-1) / 16 + 1][16];
         for (int i = 0; i < array.length; i++) {
             words[i / 16][i % 16] = array[i];
         }

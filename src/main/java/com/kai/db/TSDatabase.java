@@ -17,9 +17,9 @@ public class TSDatabase {
     private static TSDatabase instance;
     private TSDatabase() {}
 
-    //TODO: Update with relative path
+    //TODO: Figure out why this url is always relative to where you run the jar from
     private static final String url =
-            "jdbc:sqlite:Documents/Programming/MediumProjects/Treasury/src/main/resources/treasury.db";
+            "jdbc:sqlite:treasury.db";
 
     public static TSDatabase instance() {
         if (instance == null) instance = new TSDatabase();
@@ -58,8 +58,8 @@ public class TSDatabase {
 
     public boolean stashPassword(String identifier, String encryptedPassword, String notes) {
         //TODO: Check if the password already exists
-        executeWithoutResults(String.format("INSERT INTO Treasury (Identifier, EncPwd, Notes" +
-                "VALUES ('%s', '%s', '%s", identifier, encryptedPassword, notes));
+        executeWithoutResults(String.format("INSERT INTO Treasury (Identifier, EncPwd, Notes)" +
+                "VALUES ('%s', '%s', '%s')", identifier, encryptedPassword, notes));
         return true;
     }
 

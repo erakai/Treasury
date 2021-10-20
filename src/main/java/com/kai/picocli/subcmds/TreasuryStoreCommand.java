@@ -4,6 +4,7 @@ import com.kai.db.TSDatabase;
 import com.kai.model.AES128;
 import com.kai.model.AesUtil;
 import com.kai.model.HashController;
+import com.kai.model.RijndaelSchedule;
 import com.kai.picocli.TextConstants;
 import com.kai.picocli.Treasury;
 import picocli.CommandLine;
@@ -37,11 +38,16 @@ public class TreasuryStoreCommand implements Runnable {
             String stringPwd = String.valueOf(plainPassword);
             byte[][] encPwd = AesUtil.stringToBlocks(stringPwd);
             byte[] key = HashController.hexToByte(TSDatabase.instance().retrieveHashedMasterPassword());
-            AES128.encrypt(encPwd, key);
+            AES128.encrypt(encPwd, RijndaelSchedule.convertBytesToKey(key));
+
+            System.out.println("Encrypted as: ");
+            AesUtil.printByteArray(AesUtil.matrixByteArrayToSingle(encPwd), false);
             String encStringPwd = HashController.byteToHex(AesUtil.matrixByteArrayToSingle(encPwd));
+            System.out.println("Hex Form: " + encStringPwd);
 
             TSDatabase.instance().stashPassword(identifier, encStringPwd, "a password");
-            System.out.println(TextConstants.storeRan + identifier + ".");
+            System.out.println(TextConstants.storeRan + "'" + identifier + "'.");
         } catch (SQLException ex) { ex.printStackTrace(); }
+        Arrays.fill(plainPassword, ' ');
     }
 }

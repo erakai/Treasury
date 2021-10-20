@@ -78,6 +78,25 @@ public class RijndaelSchedule {
     }
 
     /**
+     * Takes in an array of bytes and converts it into a key. If the array is longer than a word, it will take
+     * the first 16 bytes. If the array is too short, it will fill the remaining bytes with 0.
+     *
+     * @param bytes An array of any length bytes.
+     * @return A 16 byte word.
+     */
+    public static byte[] convertBytesToKey(byte[] bytes) {
+        byte[] key = new byte[16];
+        for (int i = 0; i < 16; i++) {
+            if (i >= bytes.length) {
+                key[i] = 0x00;
+            } else {
+                key[i] = bytes[i];
+            }
+        }
+        return key;
+    }
+
+    /**
      * Core method that scrambles the bytes during key expansion. Takes an array of 4 bytes, rotates it, and then
      * substitutes each byte using sbox. Then the rcon value for the round is added to the first byte.
      *

@@ -4,11 +4,13 @@ import com.kai.db.TSDatabase;
 import com.kai.model.AES128;
 import com.kai.model.AesUtil;
 import com.kai.model.HashController;
+import com.kai.model.RijndaelSchedule;
 import com.kai.picocli.TextConstants;
 import com.kai.picocli.Treasury;
 import picocli.CommandLine;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 
 /**
  * @author Kai Tinkess
@@ -40,28 +42,33 @@ public class TreasuryGetCommand implements Runnable {
             }
 
             String hexPassword = TSDatabase.instance().retrievePassword(identifier);
-            if (hexPassword == null || identifier.equals(TextConstants.mainPasswordName)) {
-                System.out.println(TextConstants.identifierNotFoundError);
+            if (hexPassword == null || hexPassword.isBlank() || identifier.equals(TextConstants.mainPasswordName)) {
+                System.out.println("Identifier '" + identifier + "' not found.");
                 return;
             }
 
-            byte[][] bytePassword = AesUtil.singleByteArrayToMatrix(HashController.hexToByte(TSDatabase.instance().retrievePassword(identifier)));
-            AES128.decrypt(bytePassword, HashController.hexToByte(hash));
-            String password = AesUtil.blocksToString(bytePassword);
+            String hexPwd = TSDatabase.instance().retrievePassword(identifier);
+            byte[][] bytePassword = AesUtil.singleByteArrayToMatrix(HashController.hexToByte(hexPwd));
+            AES128.decrypt(bytePassword, RijndaelSchedule.convertBytesToKey(HashController.hexToByte(hash)));
 
-            System.out.print("Finding password");
-            for (int i = 0; i < Math.random() * 8; i++) {
-                System.out.print(".");
-                Thread.sleep(166);
-            }
             System.out.println("The password will be deleted 5 seconds after being printed.");
-            System.out.println("\nPrinting password for '" + identifier + "' in 2 seconds:");
-            Thread.sleep(2000);
-            System.out.println("\n\t" + password);
+            System.out.print("Finding password");
+            int m = (int)(Math.random() * 8) + 9;
+            for (int i = 5; i < m; i++) {
+                System.out.print(".");
+                Thread.sleep(350);
+            }
+
+            String password = AesUtil.blocksToString(bytePassword);
+            System.out.println("\n\nPassword for '" + identifier + "':");
+            System.out.print(">>\t" + password);
             Thread.sleep(5000);
-            for (int i = 0; i < password.length(); i++) System.out.print("\b");
+
+            System.out.print("\b".repeat(password.length()) + "x".repeat(password.length()));
             System.out.println();
 
+            password = "";
+            Arrays.fill(mainPassword, ' ');
         } catch (SQLException | InterruptedException ex) {
             ex.printStackTrace();
         }

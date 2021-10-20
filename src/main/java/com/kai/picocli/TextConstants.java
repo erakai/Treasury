@@ -29,7 +29,7 @@ public class TextConstants {
     public final static String noParamsError = "In order to view possible commands, run:\n\ttreasury --help";
     public final static String noIdentifiersError = "You have no stored passwords! Run:\n\ttreasury store -p [identifier]\nto store one.";
     public final static String loadingDBError = "Database not loaded yet...";
-    public final static String incorrectMasterPasswordError = "Your master password was incorrect.";
+    public final static String incorrectMasterPasswordError = "Your main password was incorrect.";
     public final static String identifierNotFoundError = "Identifier not found.";
 
     public final static String initRan = "Treasury has been initialized!\nYou can now begin using Treasury. Run\n\ttreasury --help\nfor a list of possible commands.";

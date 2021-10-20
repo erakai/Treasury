@@ -28,7 +28,7 @@ public class TreasuryListCommand implements Runnable {
             return;
         }
 
-        System.out.println("Identifiers:");
+        System.out.println("You have the following identifiers stored:");
         for (String ident: identifiers) {
             if (!ident.equals(TextConstants.mainPasswordName)) System.out.println("\t" + ident);
         }
