@@ -1,6 +1,6 @@
 # Treasury
 
-A command-line tool to securely encrypt passwords with AES-128, storing them in a database.
+A command-line tool to securely encrypt passwords with AES-128, storing them in a database. The AES-128 implementation is custom and written in Java.
 
 
 ----
